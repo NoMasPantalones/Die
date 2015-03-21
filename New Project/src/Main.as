@@ -21,21 +21,13 @@ package
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			//var game:Game1 = new Game1();
-			//addChild(game);
-			
-			var loader:XXXLoader = new XXXLoader("assets.swf",startGame);
+			XXXLoader.load("assets.swf", goGame);
 		}
 		
-		private function startGame():void 
-		{
-			var c:Class = Global.assets.getDefinition("hero") as Class;
-			var mc:MovieClip = new c();
-			mc.x = 100;
-			mc.y = 50;
-			addChild(mc);
-			
-			//trace();
+		private function goGame():void {
+			trace("creo game");
+			var game:Game = new Game();
+			addChild(game);
 		}
 		
 	}
