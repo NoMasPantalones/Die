@@ -4,39 +4,50 @@ package
 	import flash.events.Event;
 	import XXXNoScope360HeadShot.inputs.XXXKeyboard;
 	import XXXNoScope360HeadShot.loader.XXXLoader;
+	import XXXNoScope360HeadShot.objects.GameObjects;
 	/**
 	 * ...
 	 * @author Alonzo Pizarro
 	 */
-	public class Hero extends Sprite
+	public class Hero extends GameObjects
 	{
-		private var skin:Sprite;
-		private var velocity:int;
+		private var rand:Number;
+		private var limitX:Number;
+		private var limitY:Number;
+	
 		public function Hero() 
 		{
-			super();
-			addEventListener(Event.ADDED_TO_STAGE, added);
+			velocity = 4;
+			rand = Math.random();
+			assetClass = XXXLoader.getAsset("hero") as Class;
+			
 		}
 		
-		private function added(e:Event):void {
-			velocity = 1;
-			removeEventListener(Event.ADDED_TO_STAGE, added);
-			var c:Class = XXXLoader.getAsset("hero");
-			skin = new c();
-			addChild(skin);
+		override public function init():void
+		{
+			limitX = stage.stageWidth - width;
+			limitY = stage.stageHeight - height;
+			x = Math.random() * limitX;
+			y = Math.random() * limitY;
 		}
-		public function update():void {
-			if (XXXKeyboard.leftPress) {
-				skin.x -= velocity;
+		override public function update():void
+		{
+			if (rand >= 0.5)
+			{
+				x += velocity;
+			}else
+			{
+				x -= velocity;
 			}
-			if (XXXKeyboard.rightPress) {
-				skin.x += velocity;
+			if (x >= limitX)
+			{
+				x = limitX;
+				velocity *= -1;
 			}
-			if (XXXKeyboard.downPress) {
-				skin.y += velocity;
-			}
-			if (XXXKeyboard.upPress) {
-				skin.y -= velocity;
+			if (x < 0)
+			{
+				x = 0;
+				velocity *= -1;
 			}
 		}
 	}
